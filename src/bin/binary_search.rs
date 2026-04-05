@@ -1,5 +1,7 @@
 #![warn(clippy::all, clippy::pedantic)]
 
+use std::cmp::Ordering;
+
 fn main() {
     let arr1: [i32; 7] = [-2, -1, 5, 7, 9, 15, 19];
     let result = binary_search(&arr1, 123);
@@ -19,14 +21,18 @@ fn binary_search(arr: &[i32], target: i32) -> Option<(i32, usize)> {
     while left < right {
         let mid = usize::midpoint(left, right);
 
-        if arr[mid] == target {
-            step += 1;
-            println!("Шаг: {step}");
-            return Some((target, mid));
-        } else if arr[mid] < target {
-            left = mid + 1;
-        } else {
-            right = mid;
+        match arr[mid].cmp(&target) {
+            Ordering::Equal => {
+                println!("Шаг: {}", step + 1);
+                return Some((target, mid));
+            }
+            Ordering::Less => {
+                left = mid + 1;
+            }
+            Ordering::Greater => {
+                right = mid;
+            }
+            
         }
 
         step += 1;
