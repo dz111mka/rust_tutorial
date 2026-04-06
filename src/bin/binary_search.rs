@@ -4,7 +4,7 @@ use std::cmp::Ordering;
 
 fn main() {
     let arr1: [i32; 7] = [-2, -1, 5, 7, 9, 15, 19];
-    let result = binary_search(&arr1, 123);
+    let result = binary_search(&arr1, -2);
     match result {
         Some((found_value, index)) => println!("Найденное значение {} имеет индекс {}", found_value, index + 1),
         None => println!("Значение не найдено")
@@ -26,13 +26,8 @@ fn binary_search(arr: &[i32], target: i32) -> Option<(i32, usize)> {
                 println!("Шаг: {}", step + 1);
                 return Some((target, mid));
             }
-            Ordering::Less => {
-                left = mid + 1;
-            }
-            Ordering::Greater => {
-                right = mid;
-            }
-            
+            Ordering::Less => left = mid + 1,
+            Ordering::Greater => right = mid,
         }
 
         step += 1;
